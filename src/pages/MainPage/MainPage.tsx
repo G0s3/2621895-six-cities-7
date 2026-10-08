@@ -1,4 +1,4 @@
-import { CityCard } from '../../CityCard/CityCard';
+import { CityCard } from '../../components/CityCard/CityCard';
 
 type MainPageProps = {
   offersCount: number;

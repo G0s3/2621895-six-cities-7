@@ -1,14 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from './components/pages/MainPage/MainPage';
-import { NotFoundPage } from './components/pages/NotFoundPage/NotFoundPage';
-import LoginPage from './components/pages/LoginPage/LoginPage';
-import FavoritesPage from './components/pages/FavoritesPage/FavoritesPage';
-import OfferPage from './components/pages/OfferPage/OfferPage';
 import { PrivateRoute } from './components/private-route.tsx/private-route';
+import MainPage from './pages/MainPage/MainPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import OfferPage from './pages/OfferPage/OfferPage';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
 
 type AppProps = {
   offersCount: number;
 };
+
+const authorizationStatus: boolean = false;
 
 export const App = ({ offersCount }: AppProps) => (
   <BrowserRouter>
@@ -18,7 +20,7 @@ export const App = ({ offersCount }: AppProps) => (
       <Route
         path="/favorites"
         element={
-          <PrivateRoute>
+          <PrivateRoute authorizationStatus={authorizationStatus}>
             <FavoritesPage />
           </PrivateRoute>
         }
