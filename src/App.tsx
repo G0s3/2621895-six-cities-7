@@ -12,7 +12,7 @@ type AppProps = {
   offers: Offer[];
 };
 
-const authorizationStatus: boolean = false;
+const authorizationStatus: boolean = true;
 
 export const App = ({ offersCount, offers }: AppProps) => (
   <BrowserRouter>

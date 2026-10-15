@@ -11,6 +11,12 @@ const FavoritesPage = ({ offers }: FavoritesPageProps) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const [, setActiveOfferId] = useState<string | null>(null);
 
+  const offersByCity = favoriteOffers.reduce<Record<string, Offer[]>>((acc, offer) => {
+    const cityName = offer.city.name;
+    acc[cityName] = acc[cityName] ? [...acc[cityName], offer] : [offer];
+    return acc;
+  }, {});
+
   return (
     <div className="page">
       <header className="header">
@@ -59,10 +65,24 @@ const FavoritesPage = ({ offers }: FavoritesPageProps) => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <OffersList
-                offers={favoriteOffers}
-                onCardHover={setActiveOfferId}
-              />
+              {Object.entries(offersByCity).map(([city, cityOffers]) => (
+                <li key={city} className="favorites__locations-items">
+                  <div className="favorites__locations locations locations--current">
+                    <div className="locations__item">
+                      <a className="locations__item-link" href="#">
+                        <span>{city}</span>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="favorites__places">
+                    <OffersList
+                      offers={cityOffers}
+                      onCardHover={setActiveOfferId}
+                      variant="favorites"
+                    />
+                  </div>
+                </li>
+              ))}
             </ul>
           </section>
         </div>
