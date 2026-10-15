@@ -3,7 +3,7 @@ import { CityCard } from './city-card/сity-сard';
 
 type OffersListProps = {
   offers: Offer[];
-  onCardHover: (offerId: number | null) => void;
+  onCardHover: (offerId: string | null) => void;
   variant?: 'cities' | 'favorites' | 'near-places';
 };
 

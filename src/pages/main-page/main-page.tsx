@@ -9,7 +9,7 @@ type MainPageProps = {
 };
 
 const MainPage = ({ offersCount, offers }: MainPageProps) => {
-  const [, setActiveOfferId] = useState<number | null>(null);
+  const [, setActiveOfferId] = useState<string | null>(null);
 
   return (
     <div className="page page--gray page--main">

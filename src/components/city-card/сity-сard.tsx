@@ -3,7 +3,7 @@ import { Offer } from '../../mocks/offers';
 
 type CityCardProps = {
   offer: Offer;
-  onCardHover: (offerId: number | null) => void;
+  onCardHover: (offerId: string | null) => void;
   variant?: 'cities' | 'favorites' | 'near-places';
 };
 
@@ -25,7 +25,7 @@ export const CityCard = ({ offer, onCardHover, variant = 'cities' }: CityCardPro
         <a href="#">
           <img
             className="place-card__image"
-            src={offer.picture}
+            src={offer.previewImage}
             width={isFavorites ? 150 : 260}
             height={isFavorites ? 110 : 200}
             alt="Place image"

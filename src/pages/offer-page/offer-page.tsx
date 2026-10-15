@@ -9,7 +9,7 @@ type OfferPageProps = {
 };
 
 const OfferPage = ({ offers }: OfferPageProps) => {
-  const [, setActiveOfferId] = useState<number | null>(null);
+  const [, setActiveOfferId] = useState<string | null>(null);
 
   return (
     <div className="page">

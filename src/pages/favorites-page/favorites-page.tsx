@@ -9,7 +9,7 @@ type FavoritesPageProps = {
 
 const FavoritesPage = ({ offers }: FavoritesPageProps) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-  const [, setActiveOfferId] = useState<number | null>(null);
+  const [, setActiveOfferId] = useState<string | null>(null);
 
   return (
     <div className="page">
