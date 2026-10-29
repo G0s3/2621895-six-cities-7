@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list';
 import { Offer } from '../../mocks/offers';
+import { Map } from '../../components/map/map';
 
 type MainPageProps = {
   offersCount: number;
@@ -9,7 +10,12 @@ type MainPageProps = {
 };
 
 const MainPage = ({ offersCount, offers }: MainPageProps) => {
-  const [, setActiveOfferId] = useState<string | null>(null);
+  const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
+
+  const amsterdamOffers = offers.filter(
+    (offer) => offer.city.name === 'Amsterdam',
+  );
+  const city = amsterdamOffers[0]?.city;
 
   return (
     <div className="page page--gray page--main">
@@ -17,7 +23,10 @@ const MainPage = ({ offersCount, offers }: MainPageProps) => {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link header__logo-link--active" to="/">
+              <Link
+                className="header__logo-link header__logo-link--active"
+                to="/"
+              >
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -124,11 +133,20 @@ const MainPage = ({ offersCount, offers }: MainPageProps) => {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OffersList offers={offers} onCardHover={setActiveOfferId} />
+                <OffersList
+                  offers={amsterdamOffers}
+                  onCardHover={setSelectedOfferId}
+                />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              {city && (
+                <Map
+                  city={city}
+                  offers={amsterdamOffers}
+                  selectedOfferId={selectedOfferId}
+                />
+              )}
             </div>
           </div>
         </div>
