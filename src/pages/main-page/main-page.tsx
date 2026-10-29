@@ -13,10 +13,10 @@ type MainPageProps = {
 const MainPage = ({ offersCount, offers }: MainPageProps) => {
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
 
-  const amsterdamOffers = offers.filter(
+  const filteredOffers = offers.filter(
     (offer) => offer.city.name === ACTIVE_CITY,
   );
-  const city = amsterdamOffers[0]?.city;
+  const city = filteredOffers[0]?.city;
 
   return (
     <div className="page page--gray page--main">
@@ -135,7 +135,7 @@ const MainPage = ({ offersCount, offers }: MainPageProps) => {
               </form>
               <div className="cities__places-list places__list tabs__content">
                 <OffersList
-                  offers={amsterdamOffers}
+                  offers={filteredOffers}
                   onCardHover={setSelectedOfferId}
                 />
               </div>
@@ -144,7 +144,7 @@ const MainPage = ({ offersCount, offers }: MainPageProps) => {
               {city && (
                 <Map
                   city={city}
-                  offers={amsterdamOffers}
+                  offers={filteredOffers}
                   selectedOfferId={selectedOfferId}
                 />
               )}
