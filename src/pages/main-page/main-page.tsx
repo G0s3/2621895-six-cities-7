@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list';
 import { Offer } from '../../mocks/offers';
 import { Map } from '../../components/map/map';
+import { ACTIVE_CITY } from '../../constants/constants';
 
 type MainPageProps = {
   offersCount: number;
@@ -13,7 +14,7 @@ const MainPage = ({ offersCount, offers }: MainPageProps) => {
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
 
   const amsterdamOffers = offers.filter(
-    (offer) => offer.city.name === 'Amsterdam',
+    (offer) => offer.city.name === ACTIVE_CITY,
   );
   const city = amsterdamOffers[0]?.city;
 

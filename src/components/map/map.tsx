@@ -12,9 +12,10 @@ type MapProps = {
   city: Offer['city'];
   offers: Offer[];
   selectedOfferId: string | null;
+  className?: string;
 };
 
-export const Map = ({ city, offers, selectedOfferId }: MapProps) => {
+export const Map = ({ city, offers, selectedOfferId, className = 'cities__map' }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city.location);
 
@@ -45,7 +46,10 @@ export const Map = ({ city, offers, selectedOfferId }: MapProps) => {
             lng: offer.location.longitude,
           },
           {
-            icon: offer.id === selectedOfferId ? currentCustomIcon : defaultCustomIcon,
+            icon:
+              offer.id === selectedOfferId
+                ? currentCustomIcon
+                : defaultCustomIcon,
           },
         )
         .addTo(markerLayer);
@@ -56,5 +60,5 @@ export const Map = ({ city, offers, selectedOfferId }: MapProps) => {
     };
   }, [map, offers, selectedOfferId]);
 
-  return <div className="cities__map" ref={mapRef}></div>;
+  return <div className={className} ref={mapRef}></div>;
 };

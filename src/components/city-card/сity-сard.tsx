@@ -22,7 +22,7 @@ export const CityCard = ({ offer, onCardHover, variant = 'cities' }: CityCardPro
         </div>
       )}
       <div className={`${variant}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`/offer/${offer.id}`}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -30,7 +30,7 @@ export const CityCard = ({ offer, onCardHover, variant = 'cities' }: CityCardPro
             height={isFavorites ? 110 : 200}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className={isFavorites ? 'favorites__card-info place-card__info' : 'place-card__info'}>
         <div className="place-card__price-wrapper">
