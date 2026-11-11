@@ -8,19 +8,15 @@ import OfferPage from './pages/offer-page/offer-page';
 import { Offer } from './mocks/offers';
 
 type AppProps = {
-  offersCount: number;
   offers: Offer[];
 };
 
 const authorizationStatus: boolean = true;
 
-export const App = ({ offersCount, offers }: AppProps) => (
+export const App = ({ offers }: AppProps) => (
   <BrowserRouter>
     <Routes>
-      <Route
-        path="/"
-        element={<MainPage offersCount={offersCount} offers={offers} />}
-      />
+      <Route path="/" element={<MainPage offers={offers} />} />
       <Route path="/login" element={<LoginPage />} />
       <Route
         path="/favorites"
