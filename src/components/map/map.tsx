@@ -15,7 +15,12 @@ type MapProps = {
   className?: string;
 };
 
-export const Map = ({ city, offers, selectedOfferId, className = 'cities__map' }: MapProps) => {
+export const Map = ({
+  city,
+  offers,
+  selectedOfferId,
+  className = 'cities__map',
+}: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city.location);
 
