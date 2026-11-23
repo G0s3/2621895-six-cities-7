@@ -1,4 +1,4 @@
-import { Review as ReviewType } from '../../mocks/reviews';
+import { Review as ReviewType } from '../../types';
 import { Review } from '../review/review';
 import { CommentSubmissionForm } from '../comment-submission-form/comment-submission-form';
 

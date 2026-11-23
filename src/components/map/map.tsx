@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types';
 import { useMap } from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';

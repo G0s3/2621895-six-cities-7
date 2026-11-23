@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types';
 import { Map } from '../../components/map/map';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { useDispatch, useSelector } from 'react-redux';

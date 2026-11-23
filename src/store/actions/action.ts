@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types';
 
 export const Action = {
   CITY_CHANGE: 'CITY_CHANGE',

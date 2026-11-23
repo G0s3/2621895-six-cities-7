@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list';
 import { ReviewsList } from '../../components/reviews-list/reviews-list';
 import { Map } from '../../components/map/map';
-import { Offer } from '../../mocks/offers';
-import { reviews } from '../../mocks/reviews';
+import { Offer } from '../../types';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -184,7 +183,7 @@ const OfferPage = ({ offers }: OfferPageProps) => {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+              <ReviewsList reviews={[]} />
             </div>
           </div>
           {nearbyOffers[0] && (

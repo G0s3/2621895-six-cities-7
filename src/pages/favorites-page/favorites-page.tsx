@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Offer } from '../../mocks/offers';
+import { Offer } from '../../types';
 import { OffersList } from '../../components/offers-list';
 
 type FavoritesPageProps = {
