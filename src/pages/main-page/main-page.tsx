@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { OffersList } from '../../components/offers-list';
-import { Offer } from '../../types';
+import { AuthorizationStatus, Offer } from '../../types';
 import { Map } from '../../components/map/map';
 import { CitiesList } from '../../components/cities-list/cities-list';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 import { CITIES } from '../../constants/constants';
 import { cityChangeAction } from '../../store/actions/action';
 import { SortingOptions } from '../../components/sorting-options/sorting-options';
+import { HeaderNav } from '../../components/header-nav/header-nav';
 
 type MainPageProps = {
   offers: Offer[];
@@ -28,7 +29,9 @@ const MainPage = ({ offers }: MainPageProps) => {
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('Popular');
-
+  const authorizationStatus = useSelector(
+    (state: RootState) => state.authorizationStatus,
+  );
   const filteredOffers = offers.filter(
     (offer) => offer.city.name === activeCity,
   );
@@ -66,27 +69,11 @@ const MainPage = ({ offers }: MainPageProps) => {
                 />
               </Link>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="/favorites"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav
+              userIsAuthorized={
+                authorizationStatus === AuthorizationStatus.Auth
+              }
+            />
           </div>
         </div>
       </header>

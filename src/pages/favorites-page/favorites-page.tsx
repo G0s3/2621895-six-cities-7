@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Offer } from '../../types';
+import { AuthorizationStatus, Offer } from '../../types';
 import { OffersList } from '../../components/offers-list';
+import { HeaderNav } from '../../components/header-nav/header-nav';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 type FavoritesPageProps = {
   offers: Offer[];
@@ -10,12 +13,18 @@ type FavoritesPageProps = {
 const FavoritesPage = ({ offers }: FavoritesPageProps) => {
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const [, setActiveOfferId] = useState<string | null>(null);
+  const authorizationStatus = useSelector(
+    (state: RootState) => state.authorizationStatus,
+  );
 
-  const offersByCity = favoriteOffers.reduce<Record<string, Offer[]>>((acc, offer) => {
-    const cityName = offer.city.name;
-    acc[cityName] = acc[cityName] ? [...acc[cityName], offer] : [offer];
-    return acc;
-  }, {});
+  const offersByCity = favoriteOffers.reduce<Record<string, Offer[]>>(
+    (acc, offer) => {
+      const cityName = offer.city.name;
+      acc[cityName] = acc[cityName] ? [...acc[cityName], offer] : [offer];
+      return acc;
+    },
+    {},
+  );
 
   return (
     <div className="page">
@@ -33,29 +42,11 @@ const FavoritesPage = ({ offers }: FavoritesPageProps) => {
                 />
               </Link>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link
-                    className="header__nav-link header__nav-link--profile"
-                    to="/favorites"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">
-                      {favoriteOffers.length}
-                    </span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderNav
+              userIsAuthorized={
+                authorizationStatus === AuthorizationStatus.Auth
+              }
+            />
           </div>
         </div>
       </header>

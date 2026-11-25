@@ -35,3 +35,18 @@ export type Review = {
   comment: string;
   date: string;
 };
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+export type AuthData = {
+  email: string;
+  password: string;
+};
+
+export type UserData = {
+  token: string;
+};

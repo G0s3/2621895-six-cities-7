@@ -9,13 +9,15 @@ import OfferPage from './pages/offer-page/offer-page';
 import { ErrorMessage } from './components/error-message/error-message';
 import { Spinner } from './components/spinner/spinner';
 import { RootState } from './store';
-
-const authorizationStatus: boolean = true;
+import { AuthorizationStatus } from './types';
 
 export const App = () => {
   const offers = useSelector((state: RootState) => state.offers);
   const hasError = useSelector((state: RootState) => state.hasError);
   const isLoading = useSelector((state: RootState) => state.isLoading);
+  const authorizationStatus = useSelector(
+    (state: RootState) => state.authorizationStatus,
+  );
 
   if (hasError) {
     return <ErrorMessage />;
@@ -33,7 +35,11 @@ export const App = () => {
         <Route
           path="/favorites"
           element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
+            <PrivateRoute
+              authorizationStatus={
+                authorizationStatus === AuthorizationStatus.Auth
+              }
+            >
               <FavoritesPage offers={offers} />
             </PrivateRoute>
           }
