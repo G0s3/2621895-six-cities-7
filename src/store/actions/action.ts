@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthorizationStatus, Offer } from '../../types';
+import { AuthorizationStatus, Offer, Review } from '../../types';
 
 export const Action = {
   CITY_CHANGE: 'CITY_CHANGE',
@@ -14,3 +14,4 @@ export const populatingOffersAction = createAction<Offer[]>(
 export const setAuthorizationStatusAction = createAction<AuthorizationStatus>(
   Action.SET_AUTHORIZATION_STATUS,
 );
+export const postCommentAction = createAction<Review>('POST_COMMENT');

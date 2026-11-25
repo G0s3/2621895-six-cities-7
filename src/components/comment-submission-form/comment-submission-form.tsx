@@ -1,4 +1,8 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { postCommentAction } from '../../store/api-actions';
 
 type FormState = {
   rating: string;
@@ -8,11 +12,18 @@ type FormState = {
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
+const INITIAL_FORM_STATE: FormState = {
+  rating: '',
+  review: '',
+};
+
 export const CommentSubmissionForm = () => {
-  const [formData, setFormData] = useState<FormState>({
-    rating: '',
-    review: '',
-  });
+  const [formData, setFormData] = useState<FormState>(INITIAL_FORM_STATE);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const { id: offerId } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (
     evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -20,13 +31,47 @@ export const CommentSubmissionForm = () => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   };
 
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (!offerId) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setHasError(false);
+
+    try {
+      await dispatch(
+        postCommentAction({
+          comment: formData.review,
+          rating: Number(formData.rating),
+          offerId,
+        }),
+      ).unwrap();
+
+      setFormData(INITIAL_FORM_STATE);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const isSubmitDisabled =
+    isSubmitting ||
     !formData.rating ||
     formData.review.length < MIN_REVIEW_LENGTH ||
     formData.review.length > MAX_REVIEW_LENGTH;
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(evt) => {
+        void handleSubmit(evt);
+      }}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -39,6 +84,7 @@ export const CommentSubmissionForm = () => {
           type="radio"
           checked={formData.rating === '5'}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
         <label
           htmlFor="5-stars"
@@ -57,6 +103,7 @@ export const CommentSubmissionForm = () => {
           type="radio"
           checked={formData.rating === '4'}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
         <label
           htmlFor="4-stars"
@@ -75,6 +122,7 @@ export const CommentSubmissionForm = () => {
           type="radio"
           checked={formData.rating === '3'}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
         <label
           htmlFor="3-stars"
@@ -93,6 +141,7 @@ export const CommentSubmissionForm = () => {
           type="radio"
           checked={formData.rating === '2'}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
         <label
           htmlFor="2-stars"
@@ -111,6 +160,7 @@ export const CommentSubmissionForm = () => {
           type="radio"
           checked={formData.rating === '1'}
           onChange={handleChange}
+          disabled={isSubmitting}
         />
         <label
           htmlFor="1-star"
@@ -129,6 +179,7 @@ export const CommentSubmissionForm = () => {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
         onChange={handleChange}
+        disabled={isSubmitting}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -147,6 +198,11 @@ export const CommentSubmissionForm = () => {
           Submit
         </button>
       </div>
+      {hasError && (
+        <p style={{ color: 'red', marginTop: '10px' }}>
+          Failed to submit review. Please try again.
+        </p>
+      )}
     </form>
   );
 };

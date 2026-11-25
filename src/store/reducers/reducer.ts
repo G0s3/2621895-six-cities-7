@@ -4,10 +4,15 @@ import {
   populatingOffersAction,
   setAuthorizationStatusAction,
 } from '../actions/action';
-import { AuthorizationStatus, Offer } from '../../types';
+import { AuthorizationStatus, Offer, OfferDetail, Review } from '../../types';
 import {
+  fetchCommentsAction,
+  fetchOfferByIdAction,
+  fetchOfferNearbyAction,
   fetchOffersAction,
   fetchUserAuthorizationStatusAction,
+  logoutAction,
+  postCommentAction,
 } from '../api-actions';
 
 type InitialState = {
@@ -16,6 +21,10 @@ type InitialState = {
   hasError: boolean;
   isLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  comments: Review[];
+  currentOffer: OfferDetail | null;
+  nearbyOffers: Offer[];
+  isOfferNotFound: boolean;
 };
 
 const initialState: InitialState = {
@@ -24,6 +33,10 @@ const initialState: InitialState = {
   isLoading: false,
   hasError: false,
   authorizationStatus: AuthorizationStatus.Unknown,
+  comments: [],
+  currentOffer: null,
+  nearbyOffers: [],
+  isOfferNotFound: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -50,5 +63,27 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchOffersAction.rejected, (state) => {
       state.isLoading = false;
       state.hasError = true;
+    })
+    .addCase(postCommentAction.fulfilled, (state, action) => {
+      state.comments.push(action.payload);
+    })
+    .addCase(fetchOfferByIdAction.pending, (state) => {
+      state.isOfferNotFound = false;
+    })
+    .addCase(fetchOfferByIdAction.fulfilled, (state, action) => {
+      state.currentOffer = action.payload;
+    })
+    .addCase(fetchOfferByIdAction.rejected, (state) => {
+      state.currentOffer = null;
+      state.isOfferNotFound = true;
+    })
+    .addCase(fetchOfferNearbyAction.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(fetchCommentsAction.fulfilled, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(logoutAction.fulfilled, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
     });
 });

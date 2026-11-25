@@ -24,6 +24,19 @@ export type Offer = {
 
 export type Offers = Offer[];
 
+export type OfferDetail = Offer & {
+  description: string;
+  images: string[];
+  goods: string[];
+  bedrooms: number;
+  maxAdults: number;
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+};
+
 export type Review = {
   id: string;
   user: {
