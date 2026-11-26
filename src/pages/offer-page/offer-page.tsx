@@ -104,7 +104,8 @@ const OfferPage = () => {
                     style={{
                       width: `${Math.round(currentOffer.rating) * 20}%`,
                     }}
-                  ></span>
+                  >
+                  </span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
