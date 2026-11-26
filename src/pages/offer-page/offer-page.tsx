@@ -14,12 +14,12 @@ import {
 } from '../../store/api-actions';
 
 const OfferPage = () => {
-  const [, setActiveOfferId] = useState<string | null>(null);
+  const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const authorizationStatus = useSelector(
     (state: RootState) => state.authorizationStatus,
   );
   const comments = useSelector((state: RootState) => state.comments);
-  const nearbyOffers = useSelector((state: RootState) => state.nearbyOffers);
+  const nearbyOffers = useSelector((state: RootState) => state.nearbyOffers).slice(0, 3);
   const currentOffer = useSelector((state: RootState) => state.currentOffer);
   const isOfferNotFound = useSelector((state: RootState) => state.isOfferNotFound);
 
@@ -168,8 +168,8 @@ const OfferPage = () => {
           {nearbyOffers[0] && (
             <Map
               city={nearbyOffers[0].city}
-              offers={nearbyOffers}
-              selectedOfferId={null}
+              offers={[...nearbyOffers, currentOffer]}
+              selectedOfferId={activeOfferId ?? currentOffer.id}
               className="offer__map map"
             />
           )}

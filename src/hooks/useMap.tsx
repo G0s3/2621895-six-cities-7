@@ -7,7 +7,10 @@ type Location = {
   zoom: number;
 };
 
-export const useMap = (mapRef: React.RefObject<HTMLElement | null>, location: Location) => {
+export const useMap = (
+  mapRef: React.RefObject<HTMLElement | null>,
+  location: Location,
+) => {
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef(false);
 
@@ -22,13 +25,10 @@ export const useMap = (mapRef: React.RefObject<HTMLElement | null>, location: Lo
       });
 
       leaflet
-        .tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-          {
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          },
-        )
+        .tileLayer('cb1_5gix_1_2eb2474e63f612407614bb98', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        })
         .addTo(instance);
 
       setMap(instance);

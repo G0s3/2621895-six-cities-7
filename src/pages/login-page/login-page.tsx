@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
@@ -7,18 +7,24 @@ import { loginAction } from '../../store/api-actions';
 const LoginPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(
-      loginAction({
-        email: emailRef.current?.value ?? '',
-        password: passwordRef.current?.value ?? '',
-      }),
-    );
-    navigate('/');
+    setHasError(false);
+    try {
+      await dispatch(
+        loginAction({
+          email: emailRef.current?.value ?? '',
+          password: passwordRef.current?.value ?? '',
+        }),
+      ).unwrap();
+      navigate('/');
+    } catch {
+      setHasError(true);
+    }
   };
 
   return (
@@ -79,6 +85,11 @@ const LoginPage = () => {
               >
                 Sign in
               </button>
+              {hasError && (
+                <p style={{ color: 'red', marginTop: '10px' }}>
+                  Invalid email or password. Please try again.
+                </p>
+              )}
             </form>
           </section>
           <section className="locations locations--login locations--current">

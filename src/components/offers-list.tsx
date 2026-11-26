@@ -8,9 +8,9 @@ type OffersListProps = {
 };
 
 export const OffersList = ({ offers, onCardHover, variant }: OffersListProps) => (
-  <div>
+  <>
     {offers.map((offer) => (
       <CityCard key={offer.id} offer={offer} onCardHover={onCardHover} variant={variant} />
     ))}
-  </div>
+  </>
 );
